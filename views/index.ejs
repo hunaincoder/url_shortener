@@ -22,9 +22,9 @@
       </form>
       <h2>Shorten URLs</h2>
       <ul>
-        <% Object.entries(links).map(([shortcode, url]) => {%>
-          <% const truncatedURL = url.substring(0, 20) + '...' %>
-        <li>
+        <% links.map(({shortcode, url}) => {%>
+          <% const truncatedURL = String(url).substring(0, 20) + '...' %>
+          <li>
           <a href="/<%= shortcode %>" target="_blank">
             <%= host %>/<%= shortcode %></a
           >

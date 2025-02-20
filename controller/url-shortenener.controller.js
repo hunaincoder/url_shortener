@@ -1,10 +1,10 @@
 import crypto from "crypto";
-import { loadLinks, savelinks } from "../model/shortener.model.js";
+import { loadLinks, savelinks , getLinkByShortCode } from "../model/shortener.model.js";
 
 export const getShortenerPage = async (req, res) => {
   try {
     const links = await loadLinks();
-    return res.render("index" , {links , host : req.hostname})
+    return res.render("index", { links, host: req.hostname });
   } catch (error) {
     console.error(error);
     return res.status(500).send("internal server error");
@@ -12,7 +12,7 @@ export const getShortenerPage = async (req, res) => {
 };
 
 export const postURLShortener = async (req, res) => {
-  try { 
+  try {
     const { url, shortcode } = req.body;
     const finalShortCode = shortcode || crypto.randomBytes(4).toString("hex");
     const links = await loadLinks();
@@ -21,9 +21,7 @@ export const postURLShortener = async (req, res) => {
         .status(400)
         .send("short code already exists. please choose another one");
     }
-    links[finalShortCode] = url;
-
-    await savelinks(links);
+    await savelinks({ url, shortcode });
     return res.redirect("/");
   } catch (error) {
     console.error(error);
@@ -32,13 +30,13 @@ export const postURLShortener = async (req, res) => {
 
 export const redirectToShortLink = async (req, res) => {
   try {
-    const links = await loadLinks();
+    // const links = await loadLinks();
     const shortcode = req.params.shortcode;
-
-    if (!links[shortcode]) {
+    const link  = await getLinkByShortCode(shortcode)
+    if (!link) {
       return res.status(404).send("not found");
     }
-    return res.redirect(links[shortcode]);
+    return res.redirect(link.url);
   } catch (error) {
     console.error(error);
   }
