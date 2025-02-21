@@ -5,7 +5,7 @@ import {
   getShortenerPage,
   redirectToShortLink,
 } from "./controller/url-shortenener.controller.js";
-import { connectDB } from "./config/db-client.js";
+// import { connectDB } from "./config/db-client.js";
 const app = express();
 
 const port = 3001;
@@ -22,7 +22,7 @@ app.post("/", postURLShortener);
 
 app.get("/:shortcode", redirectToShortLink);
 try {
-  await connectDB();
+  // await connectDB();
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
