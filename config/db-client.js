@@ -1,4 +1,10 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 import { env } from "./env.js";
 
-export const dbclient = new MongoClient(env.MONGODB_URI);
+export const connectDB = async () => {
+  try {
+    await mongoose.connect(env.MONGODB_URI);
+  } catch (error) {
+    console.error(error);
+  }
+};
