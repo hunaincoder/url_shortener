@@ -1,9 +1,14 @@
 import crypto from "crypto";
 import {
+  getLinkByShortCode,
   loadLinks,
   savelinks,
-  getLinkByShortCode,
-} from "../model/shortener.model.js";
+} from "../../services/shortener.services.js";
+// import {
+//   loadLinks,
+//   savelinks,
+//   getLinkByShortCode,
+// } from "../model/shortener.model.js";
 // import { urls } from "../schema/url_schema.js";
 
 export const getShortenerPage = async (req, res) => {
@@ -20,7 +25,6 @@ export const getShortenerPage = async (req, res) => {
 
 export const postURLShortener = async (req, res) => {
   try {
-
     const link = await loadLinks(); // renamed variable to 'links'
 
     const { url, shortcode } = req.body;
@@ -31,7 +35,7 @@ export const postURLShortener = async (req, res) => {
         .status(400)
         .send("short code already exists. please choose another one");
     }
-    await savelinks({ url, shortcode : finalShortCode });
+    await savelinks({ url, shortcode: finalShortCode });
     // await urls.create({ url, shortcode });
     return res.redirect("/");
   } catch (error) {
