@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 # Node modules folder
 node_modules/
 
 # Environment variables file
+=======
+node_modules
+# Keep environment variables out of version control
+>>>>>>> c852682 (added prisma ORM)
 .env
